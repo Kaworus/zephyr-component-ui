@@ -6,12 +6,13 @@ import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { reducers, Tooltip } from 'armory-component-ui';
 import 'armory-component-ui/styles.css';
-import { Gw2Item, LanguageProvider } from 'armory-component-ui';
-import { Tag, message, Drawer } from 'antd'
+import { Gw2Item, LanguageProvider, Gold } from 'armory-component-ui';
+import { Tag, message, Drawer, Descriptions } from 'antd'
 import { CopyOutlined } from '@ant-design/icons'
 import styles from './index.less';
-import { getItemsList, getItemsListByPage } from '@/services/items';
-import { rarityContent, type, rarityColor } from './dic'
+import { getItemsList, getItemsListByPage, getRecipesOutput, getRecipes } from '@/services/items';
+import { rarityContent, type, rarityColor, flag, flagColor, restrictions, restrictionsColor } from './dic'
+import { cloneDeep } from 'lodash';
 
 const store = createStore(
   // Create the root reducer.
@@ -26,16 +27,23 @@ class Items extends React.Component {
     loading: true,
     visible: false,
     currentItems: {
-      name: ''
+      id: null,
+      icon: '',
+      name: '',
+      description: '',
+      vendor_value: 0,
+      flags: [],
+      restrictions: [],
+      type: '',
+      details: {
+        type: ''
+      }
     },
     pagination: {
       hideOnSinglePage: false,
       defaultPageSize: 10,
       showTotal: (total) => `共 ${total} 条`
     },
-    rarityColor,
-    type,
-    rarityContent,
     dataSource: [],
     itemList: [],
     columns: [
@@ -74,44 +82,59 @@ class Items extends React.Component {
         hideInSearch: true,
         dataIndex: 'rarity',
         key: 'rarity',
-        render: (text) => <Tag color={this.state.rarityColor[text]}>{this.state.rarityContent[text]}</Tag>,
+        render: (text) => <Tag color={rarityColor[text]}>{rarityContent[text]}</Tag>,
       },
       {
         title: '操作',
         dataIndex: 'operation',
         hideInSearch: true,
         key: 'operation',
-        render: (text, record) => <a onClick={() => this.setState({visible: true, currentItems: record})}>详情</a>,
+        render: (text, record) => <a onClick={() => {this.setState({visible: true, currentItems: record});this.getRecipes(record.id);}}>详情</a>,
       },
     ],
+    outputIdList: [],
+    currentRecipes: {
+      ingredients:[]
+    }
   };
   async copyRight (text) {
     await navigator.clipboard.writeText(text);
     message.success('复制成功');
   }
+  getRecipes (id) {
+    this.setState({currentRecipes: {ingredients:[]}})
+    getRecipesOutput(id).then(res => {
+      if(res.length > 0) {
+        this.setState({outputIdList: res})
+        getRecipes(res).then(recipes => {
+          this.setState({currentRecipes: recipes[0]})
+          const itemIds: number[] = []
+          recipes[0].ingredients.forEach(item => {
+            itemIds.push(item.item_id)
+          })
+          getItemsListByPage(itemIds).then(items => {
+            const result: any[] = []
+            recipes[0].ingredients.forEach(item => {
+              const data = items.find(i=> {return item.item_id === i.id})
+              result.push({
+                item_id: item.item_id,
+                count: item.count,
+                item: data
+              })
+            })
+            this.setState({currentRecipes: {...this.state.currentRecipes, ingredients: result}})
+          })
+        })
+      }
+    })
+  };
   componentDidMount() {
     this.getItemList()
-    Notification.requestPermission(() => {
-      let n: Notification;
-      setTimeout(() => {
-        n = new Notification('德拉克', {
-          body: '德拉克将在5min后刷新，立即前往。',
-          icon: '/logo.png'
-        })
-        setTimeout(()=> {
-          n.close()
-        })
-      }, 5000)
-
-    })
   };
   getItemList () {
     getItemsList().then((res: number[]) => {
       this.setState({itemList: res.reverse(),loading: false, pagination:{...this.state.pagination, total: res.length}})
     })
-  };
-  getItemListByPage () {
-
   };
   render() {
     return (
@@ -128,7 +151,7 @@ class Items extends React.Component {
                   pageSize: number;
                   current: number;
                 },) =>
-                  getItemsListByPage(this.state.itemList.splice((params.current - 1) * params.pageSize, params.pageSize)).then((list: any) => {
+                  getItemsListByPage(cloneDeep(this.state.itemList).splice((params.current - 1) * params.pageSize, params.pageSize)).then((list: any) => {
                     return {
                       data: list,
                       success: true,
@@ -141,15 +164,51 @@ class Items extends React.Component {
                 pagination={this.state.pagination}
               />
               <Drawer
-                title={this.state.currentItems.name}
+                width="480"
+                title={(
+                  <div>
+                    <img src={this.state.currentItems.icon} height="32px" style={{marginRight: '8px'}}></img>
+                    <span>{this.state.currentItems.name}</span>
+                  </div>
+                )}
                 placement="right"
                 closable={false}
                 onClose={() =>this.setState({visible: false})}
                 visible={this.state.visible}
               >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <Descriptions column={1} bordered size={'small'} labelStyle={{width: '120px'}}>
+                  <Descriptions.Item label="物品分类">{type[this.state.currentItems.type]}</Descriptions.Item>
+                  <Descriptions.Item label="二级分类">{this.state.currentItems.details.type}</Descriptions.Item>
+                  <Descriptions.Item label="标签">
+                    {
+                      this.state.currentItems.flags.map((item: string) =>
+                        <Tag key={item} style={{marginBottom: '4px'}} color={flagColor[item]}>{flag[item]}</Tag>
+                      )
+                    }
+                  </Descriptions.Item>
+                  {this.state.currentItems.restrictions.length > 0 ? (<Descriptions.Item label="限制">
+                    {
+                      this.state.currentItems.restrictions.map((item: string) =>
+                        <Tag key={item} style={{marginBottom: '4px'}} color={restrictionsColor[item]}>{restrictions[item]}</Tag>
+                      )
+                    }
+                  </Descriptions.Item>): (null)}
+                  <Descriptions.Item label="描述">{this.state.currentItems.description}</Descriptions.Item>
+                  {this.state.currentItems.vendor_value ? (<Descriptions.Item label="出售价格"><Gold coins={this.state.currentItems.vendor_value} /></Descriptions.Item>) : (null)}
+                  {/* {this.state.currentRecipes.ingredients.length > 0 ?
+                    (<Descriptions.Item label="制作配方">
+                      {
+                        this.state.currentRecipes.ingredients.map((item: any) =>
+                          <div><Gw2Item id={item.item_id} size={24}/>{item.item_id}</div>
+                        )
+                      }
+                    </Descriptions.Item>
+                    ) : null
+                  }
+                  <Descriptions.Item label="制作配方">{this.state.currentItems.description}</Descriptions.Item> */}
+                  <Descriptions.Item label="获取方式">-</Descriptions.Item>
+                </Descriptions>
+                <Tooltip />
               </Drawer>
             </div>
           )}

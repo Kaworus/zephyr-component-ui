@@ -16,3 +16,26 @@ export function getItemsListByPage(ids:number[]):any {
     resolve(result)
   })
 }
+/** 获取物品配方ID **/
+export function getRecipesOutput(id:number):any {
+  return new Promise((resolve, reject) => {
+    const result = request(`https://api.guildwars2.com/v2/recipes/search?output=${id}`)
+    resolve(result)
+  })
+}
+
+/** 获取物品配方ID **/
+export function getRecipesInput(id:number):any {
+  return new Promise((resolve, reject) => {
+    const result = request(`https://api.guildwars2.com/v2/recipes/search?input=${id}`)
+    resolve(result)
+  })
+}
+
+/** 获取配方详情 */
+export function getRecipes(ids:number[]):any {
+  return new Promise((resolve, reject) => {
+    const result = request(`https://api.guildwars2.com/v2/recipes?ids=${ids.join(',')}`)
+    resolve(result)
+  })
+}

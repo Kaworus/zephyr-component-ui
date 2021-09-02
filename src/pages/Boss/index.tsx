@@ -88,7 +88,16 @@ class Boss extends React.Component {
       }
     })
     data.sort(compare)
-    this.setState({data})
+    const pending: any[] = []
+    const not: any[] = []
+    data.forEach(item => {
+      if(now - item.lastTime < 15 * 60) {
+        pending.push(item)
+      } else {
+        not.push(item)
+      }
+    })
+    this.setState({data: [...pending, ...not]})
   }
   timeNum (data) {
     const hour = Math.floor(data / 3600)
@@ -108,7 +117,6 @@ class Boss extends React.Component {
     } else {
       text = `${item.c_name}(未刷新)  -${this.timeNum(item.nextTime - moment().hour() * 3600 + moment().minutes() * 60 + moment().second())}   ${item.waypoint.name}传送点${item.waypoint.code}[和风议会]`
     }
-    console.log(text)
     await navigator.clipboard.writeText(text);
     message.success('复制成功');
   };
@@ -119,6 +127,7 @@ class Boss extends React.Component {
             {this.state.data.map((item) => (
               <Col xxl={4} xl={6} lg={8} xs={24} md={12} key={item.id}>
                 <Card
+                  hoverable
                   style={{ width: '100%', marginBottom: 24 }}
                   bodyStyle={{padding: 18}}
                   cover={

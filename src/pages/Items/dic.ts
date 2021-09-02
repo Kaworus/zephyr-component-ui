@@ -61,6 +61,7 @@ const type = {
   Consumable: '消耗品',
   Gizmo: '小发明',
   Bag: '包包',
+  Weapon: '武器',
   Armor: '护甲',
   MiniPet: '迷你宠物',
   Trinket: '首饰',

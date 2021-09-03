@@ -5,7 +5,12 @@ body,
 #root {
   height: 100%;
 }
-
+.ant-badge-status-processing {
+  background-color: @primary-color;
+}
+.ant-badge-status-processing::after {
+  border-color: @primary-color;
+}
 .colorWeak {
   filter: invert(80%);
 }
@@ -58,23 +63,23 @@ ol {
 
 //滚动条凹槽的颜色，还可以设置边框属性
 ::-webkit-scrollbar-track-piece {
-  background-color:white;
+  background-color: white;
 }
 //滚动条的宽度
 ::-webkit-scrollbar {
-  width:3px;
-  height:3px;
+  width: 3px;
+  height: 3px;
 }
 //滚动条的设置
 ::-webkit-scrollbar-thumb {
+  min-height: 28px;
   background-color: @primary-color;
-  background-clip:padding-box;
-  min-height:28px;
+  background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: @primary-5;
 }
 
-.gw2a--25TT-{
+.gw2a--25TT- {
   align-items: center;
 }

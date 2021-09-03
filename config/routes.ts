@@ -2,13 +2,27 @@
   { path: '/home', name: '首页', icon: 'home', component: './Home' },
   { path: '/boss', name: 'BOSS计时器', icon: 'fieldTime', component: './Boss' },
   { path: '/items', name: '物品搜索', icon: 'search', component: './Items' },
-  { path: '/simulation', name: '特长模拟器', icon: 'experiment', component: './Simulation' },
-  { path: '/introduction', name: '攻略合集', icon: 'book', route: [
-    {
-      path: '/introduction/bd',
-      name: 'BD配置'
-    }
-  ] },
+  { path: '/simulation', name: '属性模拟器', icon: 'experiment', component: './Simulation' },
+  {
+    path: '/introduction',
+    name: '攻略合集',
+    icon: 'book',
+    redirect: '/introduction/Festival',
+    routes: [
+      {
+        path: '/introduction/bd',
+        name: '职业攻略',
+        component: './Introduction/Bd',
+        icon: 'book',
+      },
+      {
+        path: '/introduction/Festival',
+        name: '节日攻略',
+        component: './Introduction/Festival',
+        icon: 'book',
+      },
+    ],
+  },
   { path: '/', redirect: '/home' },
   { component: './404' },
 ];

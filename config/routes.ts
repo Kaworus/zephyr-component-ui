@@ -7,7 +7,6 @@
     path: '/introduction',
     name: '攻略合集',
     icon: 'book',
-    redirect: '/introduction/Festival',
     routes: [
       {
         path: '/introduction/bd',

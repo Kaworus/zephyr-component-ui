@@ -66,7 +66,7 @@ class Items extends React.Component {
                   <div>9月18日：伊斯坦/沙掠</div>
                 </div>
                 <img
-                  src="http://gw2.kongzhong.com/act/gw2pic/wallpaper/zd_11_1920x1200.jpg"
+                  src="https://d3b4yo2b5lbfy.cloudfront.net/wp-content/uploads/2016/09/c08d5SPoT-1920x1080.jpg"
                   width={1292}
                   height={444}
                   style={{ objectFit: 'cover', objectPosition: '0px -108px' }}

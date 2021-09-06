@@ -3,11 +3,11 @@ import { defineConfig } from 'umi';
 import { join } from 'path';
 
 import defaultSettings from './defaultSettings';
-import darkTheme from '@ant-design/dark-theme'
+import darkTheme from '@ant-design/dark-theme';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV } = process.env;
+const { REACT_APP_ENV, UMI_ENV } = process.env;
 export default defineConfig({
   hash: true,
   antd: {},
@@ -47,8 +47,10 @@ export default defineConfig({
   title: false,
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
+  base: UMI_ENV === 'dev' ? '/' : '/zephyr-component-ui/',
+  publicPath: UMI_ENV === 'dev' ? '/' : '/zephyr-component-ui/',
   manifest: {
-    basePath: '/',
+    basePath: UMI_ENV === 'dev' ? '/' : '/zephyr-component-ui/',
   },
   // Fast Refresh 热更新
   fastRefresh: {},

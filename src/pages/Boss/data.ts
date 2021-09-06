@@ -136,7 +136,8 @@ const bossList = [
     lastTime: 0,
     nextTime: 0,
     alarm: false,
-    link_url: 'http://gw2.kongzhong.com/act/gw2pic/wallpaper/lw_4_1920x1080.jpg',
+    link_url:
+      'https://d3b4yo2b5lbfy.cloudfront.net/wp-content/uploads/2016/06/4612bbafaa9-17_TR-1920x1080.jpg',
     waypoint: {
       name: '破碎海岸',
       coord: [15879.6, 21976.6],
@@ -206,6 +207,40 @@ const bossList = [
     waypoint: {
       name: '喀壳营地',
       coord: [12837.9, 20382.5],
+      code: '[&BNcGAAA=]',
+    },
+    level: '80',
+  },
+  {
+    id: 14,
+    name: 'boss14',
+    c_name: '母龙',
+    time: [600, 7800, 15000, 22200, 29400, 36600, 43800, 51000, 58200, 65400, 72600, 79800],
+    lastTime: 0,
+    nextTime: 0,
+    alarm: false,
+    link_url:
+      'https://wiki.guildwars2.com/images/thumb/9/9e/Legendary_Karka_Queen.jpg/240px-Legendary_Karka_Queen.jpg',
+    waypoint: {
+      name: '空难峰',
+      coord: [23152.1, 13214.3],
+      code: '[&BNcGAAA=]',
+    },
+    level: '80',
+  },
+  {
+    id: 15,
+    name: 'boss15',
+    c_name: '四门',
+    time: [3600, 10800, 18000, 25200, 32400, 39600, 46800, 54000, 61200, 68400, 75600, 82800],
+    lastTime: 0,
+    nextTime: 0,
+    alarm: false,
+    link_url:
+      'https://wiki.guildwars2.com/images/thumb/9/9e/Legendary_Karka_Queen.jpg/240px-Legendary_Karka_Queen.jpg',
+    waypoint: {
+      name: '东部守望哨站',
+      coord: [23152.1, 13214.3],
       code: '[&BNcGAAA=]',
     },
     level: '80',

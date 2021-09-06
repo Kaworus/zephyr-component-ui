@@ -1,4 +1,5 @@
 import { Settings as LayoutSettings } from '@ant-design/pro-layout';
+const { UMI_ENV } = process.env;
 
 const Settings: LayoutSettings & {
   pwa?: boolean;
@@ -14,7 +15,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: '和风议会',
   pwa: false,
-  logo: '/logo.png',
+  logo: UMI_ENV === 'dev' ? '/logo.png' : '/zephyr-component-ui/logo.png',
   iconfontUrl: '',
   splitMenus: true,
 };

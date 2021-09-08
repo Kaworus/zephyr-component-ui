@@ -1,11 +1,10 @@
-// import { GithubOutlined } from '@ant-design/icons';
 import { DefaultFooter } from '@ant-design/pro-layout';
+import { useLocation } from 'react-router';
 
 export default () => {
-
   const currentYear = new Date().getFullYear();
-
-  return (
+  const location: string = useLocation().pathname;
+  return location !== '/home' ? (
     <DefaultFooter
       copyright={`${currentYear} 和风议会  渝ICP备20001576号-1`}
       links={[
@@ -14,19 +13,7 @@ export default () => {
           title: '发现和分享，你在泰瑞亚的一切。',
           href: '',
         },
-        // {
-        //   key: 'github',
-        //   title: <GithubOutlined />,
-        //   href: 'https://github.com/ant-design/ant-design-pro',
-        //   blankTarget: true,
-        // },
-        // {
-        //   key: 'Ant Design',
-        //   title: 'Ant Design',
-        //   href: 'https://ant.design',
-        //   blankTarget: true,
-        // },
       ]}
     />
-  );
+  ) : null;
 };

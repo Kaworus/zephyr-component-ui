@@ -3,6 +3,7 @@
   { path: '/boss', name: 'BOSS计时器', icon: 'fieldTime', component: './Boss' },
   { path: '/items', name: '物品搜索', icon: 'search', component: './Items' },
   { path: '/simulation', name: '属性模拟器', icon: 'experiment', component: './Simulation' },
+  { path: '/recruitment', name: '队伍招募', icon: 'Crown', component: './Recruitment' },
   {
     path: '/introduction',
     name: '攻略合集',

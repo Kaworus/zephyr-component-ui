@@ -219,12 +219,11 @@ const bossList = [
     lastTime: 0,
     nextTime: 0,
     alarm: false,
-    link_url:
-      'https://wiki.guildwars2.com/images/thumb/9/9e/Legendary_Karka_Queen.jpg/240px-Legendary_Karka_Queen.jpg',
+    link_url: 'https://wiki.guildwars2.com/images/4/4c/Mordrem_Wyvern.jpg',
     waypoint: {
       name: '空难峰',
       coord: [23152.1, 13214.3],
-      code: '[&BNcGAAA=]',
+      code: '[&BAgIAAA=]',
     },
     level: '80',
   },
@@ -236,12 +235,11 @@ const bossList = [
     lastTime: 0,
     nextTime: 0,
     alarm: false,
-    link_url:
-      'https://wiki.guildwars2.com/images/thumb/9/9e/Legendary_Karka_Queen.jpg/240px-Legendary_Karka_Queen.jpg',
+    link_url: 'https://wiki.guildwars2.com/images/a/af/Octovine.jpg',
     waypoint: {
       name: '东部守望哨站',
       coord: [23152.1, 13214.3],
-      code: '[&BNcGAAA=]',
+      code: '[&BGwIAAA=]',
     },
     level: '80',
   },

@@ -1,6 +1,6 @@
 import React from 'react';
 import bossList from './data';
-import { Card, Row, Col, message, Switch } from 'antd';
+import { Card, Row, Col, message, Switch, Radio } from 'antd';
 import { HistoryOutlined } from '@ant-design/icons';
 import { reducers } from 'armory-component-ui';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
@@ -39,6 +39,7 @@ class Boss extends React.Component {
     data: bossList,
     now: moment().hour() * 3600 + moment().minutes() * 60 + moment().second(),
     alarmList: {},
+    selectedTags: 'all',
   };
   componentDidMount() {
     this.calcData();
@@ -129,123 +130,168 @@ class Boss extends React.Component {
     await navigator.clipboard.writeText(text);
     message.success('复制成功');
   }
+  radioChange(e) {
+    this.setState({ selectedTags: e.target.value });
+    console.log(e.target.value);
+    console.log(
+      this.state.data.filter((i) => {
+        if (this.state.selectedTags === 'all') {
+          return true;
+        }
+        if (i.type === this.state.selectedTags) {
+          return true;
+        }
+        return false;
+      }),
+    );
+  }
   render() {
     return (
       <Provider store={store}>
+        <div style={{ textAlign: 'end', marginBottom: 24 }}>
+          <Radio.Group
+            value={this.state.selectedTags}
+            buttonStyle="solid"
+            onChange={(e) => this.radioChange(e)}
+          >
+            <Radio.Button value="all">全部</Radio.Button>
+            <Radio.Button value="a">泰瑞亚中心</Radio.Button>
+            <Radio.Button value="b">决战买古码</Radio.Button>
+            <Radio.Button value="c">烈焰征途</Radio.Button>
+            <Radio.Button value="d">冰潮传说</Radio.Button>
+            <Radio.Button value="e">巨龙绝境</Radio.Button>
+          </Radio.Group>
+        </div>
         <Row gutter={24}>
-          {this.state.data.map((item) => (
-            <Col xxl={4} xl={6} lg={8} xs={24} md={12} key={item.id}>
-              <Card
-                hoverable
-                style={{ width: '100%', marginBottom: 24 }}
-                bodyStyle={{ padding: 18 }}
-                cover={
-                  <template>
-                    <div
-                      style={{
-                        background: `url(${item.link_url})`,
-                        height: 248,
-                        backgroundSize: 'cover',
-                        opacity: 0.65,
-                        filter: 'blur(0px)',
-                      }}
-                    ></div>
-                    <div
-                      style={{
-                        fontSize: 48,
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                        lineHeight: '248px',
-                        position: 'absolute',
-                        top: 0,
-                        width: '100%',
-                      }}
-                    >
-                      {this.state.now - item.lastTime < 15 * 60
-                        ? `+${this.timeNum(this.state.now - item.lastTime)}`
-                        : this.timeNum(item.nextTime - this.state.now)}
-                    </div>
-                    {this.state.now - item.lastTime < 15 * 60 ||
-                    (item.nextTime > this.state.now
-                      ? item.nextTime - this.state.now
-                      : item.nextTime + (86400 - this.state.now)) <
-                      15 * 60 ? (
-                      <div style={{ position: 'absolute', top: -1, right: -1 }}>
-                        <div
-                          style={{
-                            width: 0,
-                            height: 0,
-                            borderTop:
-                              this.state.now - item.lastTime < 15 * 60
-                                ? '50px solid #d6230c'
-                                : '50px solid #ffa940',
-                            borderLeft: '50px solid transparent',
-                          }}
-                        ></div>
-                        <div
-                          style={{
-                            fontSize: 8,
-                            transform: 'rotate(45deg)',
-                            position: 'absolute',
-                            top: 14,
-                            zoom: '0.8',
-                            right: 0,
-                          }}
-                        >
-                          {this.state.now - item.lastTime < 15 * 60 ? '正在进行' : '即将开始'}
-                        </div>
-                      </div>
-                    ) : null}
-                  </template>
-                }
-                actions={[]}
-              >
-                <Meta
-                  title={
-                    <div>
-                      {item.c_name}
-                      <CopyOutlined
+          {this.state.data
+            .filter((i) => {
+              if (this.state.selectedTags === 'all') {
+                return true;
+              }
+              if (i.type === this.state.selectedTags) {
+                return true;
+              }
+              return false;
+            })
+            .map((item) => (
+              <Col xxl={4} xl={6} lg={8} xs={24} md={12} key={item.id}>
+                <Card
+                  hoverable
+                  style={{ width: '100%', marginBottom: 24 }}
+                  bodyStyle={{ padding: 18 }}
+                  cover={
+                    <template>
+                      <div
                         style={{
-                          color: '#d6230c',
-                          cursor: 'pointer',
-                          marginLeft: 8,
-                          float: 'right',
-                          marginTop: '5px',
+                          background: `url(${item.link_url})`,
+                          height: 248,
+                          backgroundSize: 'cover',
+                          opacity: 0.65,
+                          filter: 'blur(0px)',
                         }}
-                        onClick={() => this.copyRight(item)}
-                      />
-                    </div>
+                      ></div>
+                      <div
+                        style={{
+                          fontSize: 48,
+                          fontWeight: 'bold',
+                          textAlign: 'center',
+                          lineHeight: '248px',
+                          position: 'absolute',
+                          top: 0,
+                          width: '100%',
+                        }}
+                      >
+                        {this.state.now - item.lastTime < 15 * 60
+                          ? `+${this.timeNum(this.state.now - item.lastTime)}`
+                          : this.timeNum(item.nextTime - this.state.now)}
+                      </div>
+                      {this.state.now - item.lastTime < 15 * 60 ||
+                      (item.nextTime > this.state.now
+                        ? item.nextTime - this.state.now
+                        : item.nextTime + (86400 - this.state.now)) <
+                        15 * 60 ? (
+                        <div style={{ position: 'absolute', top: -1, right: -1 }}>
+                          <div
+                            style={{
+                              width: 0,
+                              height: 0,
+                              borderTop:
+                                this.state.now - item.lastTime < 15 * 60
+                                  ? '50px solid #d6230c'
+                                  : '50px solid #ffa940',
+                              borderLeft: '50px solid transparent',
+                            }}
+                          ></div>
+                          <div
+                            style={{
+                              fontSize: 8,
+                              transform: 'rotate(45deg)',
+                              position: 'absolute',
+                              top: 14,
+                              zoom: '0.8',
+                              right: 0,
+                            }}
+                          >
+                            {this.state.now - item.lastTime < 15 * 60 ? '正在进行' : '即将开始'}
+                          </div>
+                        </div>
+                      ) : null}
+                    </template>
                   }
-                  description={
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
-                        <EnvironmentOutlined style={{ marginRight: 8 }} />
-                        <span>{item.waypoint.name}</span>
-                        <span style={{ marginLeft: 'auto' }}>{item.waypoint.code}</span>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
-                        <ClockCircleOutlined style={{ marginRight: 8 }} />
-                        上次{this.timeNum(item.lastTime)}
-                        <span style={{ marginLeft: 'auto' }}>
-                          下次{this.timeNum(item.nextTime)}
-                        </span>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
-                        <HistoryOutlined style={{ marginRight: 8 }} />
-                        BOSS闹钟：
-                        <Switch
-                          style={{ marginLeft: 'auto' }}
-                          size="small"
-                          checked={this.state.alarmList[item.name]}
-                          onChange={(checked) => this.alarmChange(checked, item.name)}
+                  actions={[]}
+                >
+                  <Meta
+                    title={
+                      <div>
+                        {item.c_name}
+                        <CopyOutlined
+                          style={{
+                            color: '#d6230c',
+                            cursor: 'pointer',
+                            marginLeft: 8,
+                            float: 'right',
+                            marginTop: '5px',
+                          }}
+                          onClick={() => this.copyRight(item)}
                         />
                       </div>
-                    </div>
-                  }
-                />
-              </Card>
-            </Col>
-          ))}
+                    }
+                    description={
+                      <div>
+                        <div
+                          style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}
+                        >
+                          <EnvironmentOutlined style={{ marginRight: 8 }} />
+                          <span>{item.waypoint.name}</span>
+                          <span style={{ marginLeft: 'auto' }}>{item.waypoint.code}</span>
+                        </div>
+                        <div
+                          style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}
+                        >
+                          <ClockCircleOutlined style={{ marginRight: 8 }} />
+                          上次{this.timeNum(item.lastTime)}
+                          <span style={{ marginLeft: 'auto' }}>
+                            下次{this.timeNum(item.nextTime)}
+                          </span>
+                        </div>
+                        <div
+                          style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}
+                        >
+                          <HistoryOutlined style={{ marginRight: 8 }} />
+                          BOSS闹钟：
+                          <Switch
+                            style={{ marginLeft: 'auto' }}
+                            size="small"
+                            checked={this.state.alarmList[item.name]}
+                            onChange={(checked) => this.alarmChange(checked, item.name)}
+                          />
+                        </div>
+                      </div>
+                    }
+                  />
+                </Card>
+              </Col>
+            ))}
         </Row>
       </Provider>
     );

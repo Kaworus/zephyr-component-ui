@@ -47,10 +47,10 @@ export default defineConfig({
   title: false,
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
-  base: UMI_ENV === 'dev' ? '/' : '/zephyr-component-ui/',
-  publicPath: UMI_ENV === 'dev' ? '/' : '/zephyr-component-ui/',
+  base: UMI_ENV === 'dev' ? '/' : '/zephyr-congress-ui/',
+  publicPath: UMI_ENV === 'dev' ? '/' : '/zephyr-congress-ui/',
   manifest: {
-    basePath: UMI_ENV === 'dev' ? '/' : '/zephyr-component-ui/',
+    basePath: UMI_ENV === 'dev' ? '/' : '/zephyr-congress-ui/',
   },
   // Fast Refresh 热更新
   fastRefresh: {},

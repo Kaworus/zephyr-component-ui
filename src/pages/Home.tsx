@@ -138,7 +138,7 @@ class Home extends React.Component {
           style={{
             background: `url(${footer_bg}) no-repeat`,
             backgroundSize: 'cover',
-            margin: '-24px',
+            margin: '-28px',
             position: 'absolute',
             bottom: '0px',
             width: '100vw',

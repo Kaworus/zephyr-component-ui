@@ -74,13 +74,13 @@ class Festival extends React.Component {
                 <Card bordered={false} hoverable bodyStyle={{ padding: 0, marginBottom: 24 }}>
                   <PageHeader ghost={false} title={item.title} subTitle={item.subTitle}>
                     <Row>
-                      <Col span={18}>
+                      <Col sm={18} xs={24}>
                         <Descriptions size="small" column={3}>
                           <Descriptions.Item label="编辑">{item.author}</Descriptions.Item>
                           <Descriptions.Item label="发布时间">{item.time}</Descriptions.Item>
                         </Descriptions>
                       </Col>
-                      <Col span={6}>
+                      <Col sm={6} xs={0}>
                         <img
                           height={80}
                           style={{ position: 'absolute', top: -48, right: 0 }}

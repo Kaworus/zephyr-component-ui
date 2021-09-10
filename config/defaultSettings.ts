@@ -15,7 +15,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: '和风议会',
   pwa: false,
-  logo: UMI_ENV === 'dev' ? '/logo.png' : '/zephyr-component-ui/logo.png',
+  logo: UMI_ENV === 'dev' ? '/logo.png' : '/zephyr-congress-ui/logo.png',
   iconfontUrl: '',
   splitMenus: true,
 };

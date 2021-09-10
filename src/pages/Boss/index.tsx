@@ -132,18 +132,6 @@ class Boss extends React.Component {
   }
   radioChange(e) {
     this.setState({ selectedTags: e.target.value });
-    console.log(e.target.value);
-    console.log(
-      this.state.data.filter((i) => {
-        if (this.state.selectedTags === 'all') {
-          return true;
-        }
-        if (i.type === this.state.selectedTags) {
-          return true;
-        }
-        return false;
-      }),
-    );
   }
   render() {
     return (

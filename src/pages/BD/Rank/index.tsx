@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Col, Row, Typography, Anchor, Tabs } from 'antd';
 import {
   DoubleLeftOutlined,
-  SelectOutlined,
   VideoCameraOutlined,
   BarChartOutlined,
   SettingOutlined,
@@ -636,9 +635,6 @@ class Rank extends React.Component {
                                   />
                                 </a>
                               ) : null}
-                              <SelectOutlined
-                                style={{ marginLeft: 8, fontSize: 16, marginRight: 12 }}
-                              />
                               <span
                                 style={{
                                   marginLeft: 'auto',
@@ -705,9 +701,6 @@ class Rank extends React.Component {
                                   />
                                 </a>
                               ) : null}
-                              <SelectOutlined
-                                style={{ marginLeft: 8, fontSize: 16, marginRight: 12 }}
-                              />
                               <span
                                 style={{
                                   marginLeft: 'auto',

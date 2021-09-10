@@ -4,7 +4,7 @@ import { useLocation } from 'react-router';
 export default () => {
   const currentYear = new Date().getFullYear();
   const location: string = useLocation().pathname;
-  return location !== '/home' ? (
+  return location.indexOf('/home') === -1 ? (
     <DefaultFooter
       copyright={`${currentYear} 和风议会  渝ICP备20001576号-1`}
       links={[
